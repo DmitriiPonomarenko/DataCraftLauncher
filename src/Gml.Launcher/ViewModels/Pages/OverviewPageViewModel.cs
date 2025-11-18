@@ -31,9 +31,13 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Gml.Client.Exceptions;
+using Gml.Client.Interfaces;
 using Gml.Dto.Messages;
 using Gml.Dto.News;
 using Gml.Dto.Profile;
+using GameLoader = GmlCore.Interfaces.Enums.GameLoader;
+using IUser = GmlCore.Interfaces.User.IUser;
 
 namespace Gml.Launcher.ViewModels.Pages;
 
@@ -55,7 +59,7 @@ public class OverviewPageViewModel : PageViewModelBase
     private readonly IDisposable? _speedSubscription;
 
     internal OverviewPageViewModel(IScreen screen,
-        IUser user,
+        ILauncherUser user,
         IObservable<bool> onClosed,
         IGmlClientManager? gmlManager = null,
         ISystemService? systemService = null,
@@ -157,7 +161,7 @@ public class OverviewPageViewModel : PageViewModelBase
     public ICommand GoSettingsCommand { get; set; }
     public ICommand HomeCommand { get; set; }
     public ListViewModel ListViewModel { get; } = new();
-    public IUser User { get; }
+    public ILauncherUser User { get; }
     public bool BackendIsActive { get; }
 
     [Reactive] public int? LoadingPercentage { get; set; }
@@ -244,35 +248,25 @@ public class OverviewPageViewModel : PageViewModelBase
         {
             try
             {
+                UpdateProgress(
+                    LocalizationService.GetString(ResourceKeysDictionary.Updating),
+                    LocalizationService.GetString(ResourceKeysDictionary.CheckingFileIntegrity),
+                    true);
+
                 var profileInfo = await GetProfileInfo();
 
-                if (profileInfo is { Data: not null })
-                {
-                    _gameProcess?.Close();
-                    _gameProcess = await GenerateProcess(cancellationToken, profileInfo);
-                    _gameProcess.Start();
-                    _gameProcess.StartWatch();
-                    _gameProcess.BeginOutputReadLine();
-                    _gameProcess.BeginErrorReadLine();
-
-                    Dispatcher.UIThread.Invoke(() => _mainViewModel._gameLaunched.OnNext(true));
-                    UpdateProgress(string.Empty, string.Empty, false);
-                    await _gameProcess.WaitForExitAsync(cancellationToken);
-
-                    if (_gameProcess.ExitCode != 0)
-                    {
-                        throw new MinecraftException(
-                            $"Произошел краш игры. {string.Join("\n", _logHandler.RecentLogs)}");
-                    }
-                }
-                else
-                {
-                    ShowError(ResourceKeysDictionary.Error, ResourceKeysDictionary.ProfileNotConfigured);
-                }
+                await _gmlManager.Gameloader.StartGameAsync(profileInfo, !_backendChecker.IsOffline);
             }
             catch (UnauthorizedAccessException)
             {
                 await OnLogout(CancellationToken.None);
+            }
+            catch (ProfileNotLoadedException exception)
+            {
+                ShowError(ResourceKeysDictionary.Error,
+                    LocalizationService.GetString(ResourceKeysDictionary.ProfileNotConfigured));
+                SentrySdk.CaptureException(exception);
+                Console.WriteLine(exception);
             }
             catch (FileNotFoundException exception)
             {
@@ -325,53 +319,6 @@ public class OverviewPageViewModel : PageViewModelBase
                 }
             }
         });
-    }
-
-    private async Task<Process> GenerateProcess(CancellationToken cancellationToken,
-        ResponseMessage<ProfileReadInfoDto?> profileInfo)
-    {
-        UpdateProgress(
-            LocalizationService.GetString(ResourceKeysDictionary.Updating),
-            LocalizationService.GetString(ResourceKeysDictionary.CheckingFileIntegrity),
-            true);
-
-        if (profileInfo.Data is null)
-            throw new Exception(LocalizationService.GetString(ResourceKeysDictionary.ProfileNotConfigured));
-
-        if (!_backendChecker.IsOffline)
-        {
-            await _gmlManager.DownloadNotInstalledFiles(profileInfo.Data, cancellationToken);
-        }
-
-        var process = await _gmlManager.GetProcess(profileInfo.Data, _systemService.GetOsType(), _backendChecker.IsOffline);
-
-        process.OutputDataReceived += (_, e) =>
-        {
-            if (!string.IsNullOrEmpty(e.Data))
-            {
-                Debug.WriteLine(e.Data);
-                _logHandler.ProcessLogs(e.Data);
-            }
-        };
-
-        process.ErrorDataReceived += (sender, e) =>
-        {
-            if (e.Data is null || string.IsNullOrEmpty(e.Data))
-            {
-                return;
-            }
-
-            Debug.WriteLine(e.Data);
-
-            _logHandler.ProcessLogs(e.Data);
-        };
-
-        UpdateProgress(
-            LocalizationService.GetString(ResourceKeysDictionary.Launching),
-            LocalizationService.GetString(ResourceKeysDictionary.PreparingLaunch),
-            true);
-
-        return process;
     }
 
     private async Task<ResponseMessage<ProfileReadInfoDto?>?> GetProfileInfo()

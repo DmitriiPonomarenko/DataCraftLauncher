@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using Avalonia;
 using Gml.Client;
+using Gml.Client.Interfaces;
 using Gml.Launcher.Assets;
 using Gml.Launcher.Core.Services;
 using Gml.Launcher.Models;
@@ -94,6 +95,7 @@ public static class ServiceLocator
         var manager = new GmlClientManager(
             installationDirectory,
             gateWay,
+            new GameLoader(),
             ResourceKeysDictionary.FolderName,
             systemService.GetOsType());
 #if DEBUG
