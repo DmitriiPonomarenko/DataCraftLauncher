@@ -47,7 +47,7 @@ public class ModsPageViewModel : PageViewModelBase
         ISystemService systemService) : base(screen)
     {
         _profile = profile;
-        _modsDirectory = Path.Combine(gmlManager.InstallationDirectory, "clients", profile.Name, "mods");
+        _modsDirectory = Path.Combine(gmlManager.InstallationDirectory, "game data", profile.Name, "mods");
         _user = user;
         _gmlManager = gmlManager;
         _systemService = systemService;
