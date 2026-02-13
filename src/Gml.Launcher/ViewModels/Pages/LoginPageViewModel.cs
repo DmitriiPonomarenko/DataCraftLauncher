@@ -68,9 +68,9 @@ public class LoginPageViewModel : PageViewModelBase
         RxApp.MainThreadScheduler.Schedule(CheckAuth);
     }
 
-    [Reactive] public string Login { get; set; }
-    [Reactive] public string Password { get; set; }
-    [Reactive] public string TwoFactorCode { get; set; }
+    [Reactive] public string Login { get; set; } = string.Empty;
+    [Reactive] public string Password { get; set; } = string.Empty;
+    [Reactive] public string TwoFactorCode { get; set; } = string.Empty;
     [Reactive] public bool Is2FaVisible { get; set; }
 
     public bool IsProcessing

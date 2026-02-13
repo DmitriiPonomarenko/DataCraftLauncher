@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia;
@@ -89,6 +89,14 @@ public class GmlButton : TemplatedControl
         base.OnApplyTemplate(e);
 
         if (this.GetTemplateChildren().First() is Button button)
-            button.Click += (_, _) => RaiseEvent(new RoutedEventArgs(ClickEvent));;
+        {
+            button.Click += (_, _) =>
+            {
+                RaiseEvent(new RoutedEventArgs(ClickEvent));
+                // Ручной вызов Command на случай, если TemplateBinding Command не срабатывает (известная особенность Avalonia)
+                if (Command != null && (Command.CanExecute(CommandParameter) != false))
+                    Command.Execute(CommandParameter);
+            };
+        }
     }
 }

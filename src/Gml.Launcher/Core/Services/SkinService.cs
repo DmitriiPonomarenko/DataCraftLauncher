@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
@@ -173,7 +173,7 @@ public abstract class SkinViewer
             croppedRightArm = ResizeImage(croppedRightArm, cloakScaleFactor);
         }
 
-        Image croppedCloak = null;
+        Image? croppedCloak = null;
 
         if (includeCloak && cloakImage != null)
             croppedCloak = cloakImage.Clone(ctx =>

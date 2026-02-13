@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.IO;
 using System.Diagnostics;
@@ -79,7 +79,7 @@ public partial class SettingsPageView : ReactiveUserControl<SettingsPageViewMode
                 .Queue();
         }
     }
-    private async void OpenLocation(object? sender, RoutedEventArgs e)
+    private void OpenLocation(object? sender, RoutedEventArgs e)
     {
         try
         {

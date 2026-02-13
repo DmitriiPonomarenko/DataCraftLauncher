@@ -73,7 +73,7 @@
 
          <!-- 2FA Overlay -->
         <Border IsVisible="{Binding Is2FaVisible}"
-                Background="#80000000"
+                Background="#80FFFFFF"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 ZIndex="100">

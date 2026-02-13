@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
+<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:Gml.Launcher.Views.Components">
 
@@ -39,11 +39,9 @@
             <ControlTemplate>
                 <Button Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        CommandParameter="{TemplateBinding CommandParameter}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Padding="{TemplateBinding Padding}"
                         IsDefault="{TemplateBinding IsDefault}"
-                        Command="{TemplateBinding Command}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Width="{TemplateBinding Width}"
                         Height="{TemplateBinding Height}">
@@ -65,8 +63,6 @@
             <ControlTemplate>
                 <Button Name="PART_Button"
                         Background="{TemplateBinding Background}"
-                        Command="{TemplateBinding Command}"
-                        CommandParameter="{TemplateBinding CommandParameter}"
                         Padding="{TemplateBinding Padding}"
                         IsDefault="{TemplateBinding IsDefault}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -101,8 +97,6 @@
             <ControlTemplate>
                 <Button Name="PART_Button"
                         Background="{TemplateBinding Background}"
-                        Command="{TemplateBinding Command}"
-                        CommandParameter="{TemplateBinding CommandParameter}"
                         Padding="{TemplateBinding Padding}"
                         IsDefault="{TemplateBinding IsDefault}"
                         BorderBrush="{TemplateBinding BorderBrush}"

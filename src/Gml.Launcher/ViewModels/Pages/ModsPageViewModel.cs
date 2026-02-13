@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -75,7 +75,7 @@ public class ModsPageViewModel : PageViewModelBase
 
             var isFullLoaded = file is not null && File.Exists(file) && new FileInfo(file).Length > 0;
 
-            if (isFullLoaded && _gmlManager.ToggleOptionalMod(file, mod.IsSelected))
+            if (isFullLoaded && file is not null && _gmlManager.ToggleOptionalMod(file, mod.IsSelected))
             {
                 // ShowSuccess(SystemConstants.Success,
                 //     mod.IsSelected

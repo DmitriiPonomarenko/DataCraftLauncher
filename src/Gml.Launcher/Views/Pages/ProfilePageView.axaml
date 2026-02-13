@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -45,7 +45,7 @@
                         <components:GmlButton Classes="Icon Additional"
                                               Margin="0, 15, 0, 0"
                                               Command="{Binding OpenLinkCommand}"
-                                              CommandParameter="https://recloud.tech"
+                                              CommandParameter="http://data-craft.online/"
                                               IconPath="/Assets/Images/profile.svg"
                                               Text="{x:Static lang:Resources.Cabinet}"
                                               HorizontalAlignment="Center" />
@@ -55,7 +55,7 @@
                                               Padding="15, 10, 10, 10"
 
                                               Command="{Binding OpenLinkCommand}"
-                                              CommandParameter="https://recloud.tech"
+                                              CommandParameter="http://data-craft.online/"
                                               IconSize="20"
                                               IconPath="/Assets/Images/home.svg"
                                               Text="{x:Static lang:Resources.Cabinet}"

@@ -67,7 +67,7 @@ public class PageViewModelBase : ViewModelBase, IRoutableViewModel
             Dispatcher.UIThread.Invoke(() =>
             {
                 mainViewModel.Manager
-                    .CreateMessage(true, "#008C45",
+                    .CreateMessage(true, "#06b6d4",
                         LocalizationService.GetString(title),
                         content)
                     .Dismiss()

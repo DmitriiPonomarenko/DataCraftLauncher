@@ -1,4 +1,4 @@
-﻿namespace Gml.Launcher.Assets;
+namespace Gml.Launcher.Assets;
 
 public static class ResourceKeysDictionary
 {
@@ -45,7 +45,8 @@ public static class ResourceKeysDictionary
     public const string NewsOffline = "NewsOffline";
     public const string NewsEmptyTitle = "NewsEmptyTitle";
     public const string NewsEmptyContent = "NewsEmptyContent";
-    public const string Host = "https://gmlf.recloud.tech";
-    public const string SecondaryHost = "http://localhost:5002";
+    // GML Craft: основной бэкенд — локальный API (Backend на порту 8082)
+    public const string Host = "http://localhost:8082";
+    public const string SecondaryHost = "https://gmlf.recloud.tech";
     public const string FolderName = "GmlCraft";
 }

@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
+<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:Gml.Launcher.Views.Components">
     <Design.PreviewWith>
@@ -15,9 +15,10 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <Svg Path="/Assets/Images/logo.svg"
-                     Width="{TemplateBinding Size}"
-                     Height="{TemplateBinding Size}" />
+                <Image Source="/Assets/Images/logo.png"
+                       Width="{TemplateBinding Size}"
+                       Height="{TemplateBinding Size}"
+                       Stretch="Uniform" />
             </ControlTemplate>
         </Setter>
     </Style>
@@ -28,10 +29,11 @@
             <ControlTemplate>
                 <StackPanel Orientation="Horizontal"
                             Spacing="15">
-                    <Svg Path="/Assets/Images/logo.svg"
-                         Width="{TemplateBinding Size}"
-                         Height="{TemplateBinding Size}" />
-                    <TextBlock Text="GAMERVII"
+                    <Image Source="/Assets/Images/logo.png"
+                           Width="{TemplateBinding Size}"
+                           Height="{TemplateBinding Size}"
+                           Stretch="Uniform" />
+                    <TextBlock Text="DS Launcher"
                                VerticalAlignment="Center"
                                FontSize="26"
                                FontWeight="Bold"

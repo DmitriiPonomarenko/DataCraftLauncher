@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
@@ -62,7 +62,7 @@ public class ServerInfo : TemplatedControl
         set => SetValue(IsModsButtonVisibleProperty, value);
     }
 
-    public ICommand? GoModsCommand
+    public ICommand GoModsCommand
     {
         get => GetValue(GoModsCommandProperty);
         set => SetValue(GoModsCommandProperty, value);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Reactive.Concurrency;
 using Gml.Client;
@@ -17,7 +17,7 @@ namespace Gml.Launcher.ViewModels.Pages;
 public class ProfilePageViewModel : PageViewModelBase
 {
     private readonly IGmlClientManager _manager;
-    [Reactive] public string TextureUrl { get; set; }
+    [Reactive] public string TextureUrl { get; set; } = string.Empty;
     [Reactive] public ILauncherUser LauncherUser { get; set; }
     internal ProfilePageViewModel(
         IScreen screen,

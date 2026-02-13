@@ -44,7 +44,7 @@ public class MainWindowViewModel : WindowViewModelBase, IScreen
     protected internal IObservable<bool> GameLaunched => _gameLaunched;
     public RoutingState Router { get; } = new();
 
-    public static async void RestartApp()
+    public static void RestartApp()
     {
         Process.Start(new ProcessStartInfo
         {
@@ -99,7 +99,7 @@ public class MainWindowViewModel : WindowViewModelBase, IScreen
         }
     }
 
-    private async void CheckBackend()
+    private void CheckBackend()
     {
         if (_backendChecker.IsOffline)
         {
@@ -116,7 +116,7 @@ public class MainWindowViewModel : WindowViewModelBase, IScreen
                 .Queue();
         }
     }
-    private async void CheckSystem()
+    private void CheckSystem()
     {
         if (_vpnChecker.IsUseVpnTunnel())
         {

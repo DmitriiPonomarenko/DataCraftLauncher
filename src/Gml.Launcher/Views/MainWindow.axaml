@@ -34,7 +34,7 @@
                         <ExperimentalAcrylicMaterial
                             BackgroundSource="Digger"
                             MaterialOpacity="0.85"
-                            TintColor="Black"
+                            TintColor="White"
                             TintOpacity=".9" />
                     </ExperimentalAcrylicBorder.Material>
                 </ExperimentalAcrylicBorder>
@@ -51,7 +51,7 @@
 
                         <rxui:RoutedViewHost.DefaultContent>
                             <TextBlock Text="Route not found"
-                                       Foreground="White"
+                                       Foreground="{DynamicResource HeadlineColor}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
                         </rxui:RoutedViewHost.DefaultContent>

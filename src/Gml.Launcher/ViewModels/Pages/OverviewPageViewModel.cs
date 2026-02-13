@@ -230,17 +230,29 @@ public class OverviewPageViewModel : PageViewModelBase
             await _storageService.SetAsync(StorageConstants.LastSelectedProfileName, profile.Name);
     }
 
-    private Task OnLogout(CancellationToken arg)
+    private async Task OnLogout(CancellationToken arg)
     {
-        return Dispatcher.UIThread.InvokeAsync(async () =>
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             await _storageService.SetAsync<IUser?>(StorageConstants.User, null);
+#pragma warning disable CS4014
             _mainViewModel.Router.Navigate.Execute(new LoginPageViewModel(_mainViewModel, _onClosed));
+#pragma warning restore CS4014
         });
     }
 
     private async Task StartGame()
     {
+        // Показать, что кнопка сработала
+        ShowSuccess(ResourceKeysDictionary.Information, "Запуск игры...");
+
+        if (ListViewModel.SelectedProfile is null)
+        {
+            ShowError(ResourceKeysDictionary.Error,
+                LocalizationService.GetString(ResourceKeysDictionary.ProfileNotConfigured));
+            return;
+        }
+
         var tokenSource = new CancellationTokenSource();
         var cancellationToken = tokenSource.Token;
         var disposable =  new CompositeDisposable();
@@ -255,6 +267,13 @@ public class OverviewPageViewModel : PageViewModelBase
                     true);
 
                 var profileInfo = await GetProfileInfo();
+                if (profileInfo?.Data is null)
+                {
+                    ShowError(ResourceKeysDictionary.Error,
+                        LocalizationService.GetString(ResourceKeysDictionary.ProfileNotConfigured) +
+                        " Загрузите клиент в дашборде: Профиль → вкладка «Клиент».");
+                    return;
+                }
 
                 _gmlManager.Gameloader.GameLaunched
                     .ObserveOn(RxApp.MainThreadScheduler)
@@ -308,8 +327,10 @@ public class OverviewPageViewModel : PageViewModelBase
             }
             catch (Exception exception)
             {
-                ShowError(ResourceKeysDictionary.Error, string.Join(". ", exception.Message));
-
+                var message = $"{exception.GetType().Name}: {exception.Message}";
+                if (exception.InnerException != null)
+                    message += $" | {exception.InnerException.Message}";
+                ShowError(ResourceKeysDictionary.Error, message);
                 SentrySdk.CaptureException(exception);
                 Console.WriteLine(exception);
             }
@@ -408,7 +429,7 @@ public class OverviewPageViewModel : PageViewModelBase
         });
     }
 
-    private async void KillGameProcess(bool isClosed)
+    private void KillGameProcess(bool isClosed)
     {
         try
         {

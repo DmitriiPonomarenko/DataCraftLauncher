@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
+<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:Gml.Launcher.Views.Components">
     <Design.PreviewWith>
@@ -19,8 +19,8 @@
     </Style>
 
     <Style Selector="controls|LoadingControl">
-        <Setter Property="Background" Value="#000000" />
-        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="Background" Value="#F5F5F5" />
+        <Setter Property="Foreground" Value="#06b6d4" />
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
@@ -29,7 +29,7 @@
                         Background="{TemplateBinding Background}">
                     <Ellipse Width="{TemplateBinding Size}"
                              Height="{TemplateBinding Size}"
-                             Stroke="#20FFFFFF"
+                             Stroke="#20000000"
                              StrokeThickness="2" />
                     <Ellipse Width="{TemplateBinding Size}"
                              Height="{TemplateBinding Size}"
